@@ -8,6 +8,7 @@ This project is a Unity implementation of Conway's Game of Life, a classic cellu
 ## Cellular Automata
 
 Cellular automata are discrete, abstract computational systems that have proved useful both as general models of complexity and as more specific representations of non-linear dynamics in a variety of scientific fields. The Game of Life is one of the most well-known cellular automata. It consists of a grid of cells which, based on a few mathematical rules, can live, die, or multiply. Depending on the initial conditions, the cells form various patterns throughout the course of the game.
+![Game of Life Demo](src/video.mp4)
 
 ## Conway's Game of Life
 
