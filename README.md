@@ -1,4 +1,6 @@
 # GameOfLife_Unity
+
+![Game of Life](src/img01.png)
 ## Overview
 
 This project is a Unity implementation of Conway's Game of Life, a classic cellular automaton devised by the mathematician John Horton Conway. 
@@ -33,7 +35,16 @@ This project has two versions of the Game of Life implementation:
 
 Below are the parameters used in Version 2 (as shown in the inspector screenshot):
 
-![[./src/img00.png]]
+![Game of Life V2 Parameters](src/img00.png)
+
+- **Cell Size**: `0.05`
+- **Cell Resolution**: `2`
+- **Grid Size**: `400 x 200`
+- **Is Changed**: Boolean that determines if the state of the grid has changed. This is used when you change the cell resolution or cell size to update the grid in real-time.
+- **Make Cells State Random**: Boolean that randomizes the initial state of cells. If true, it will make random cells active. If false, the initial state will depend on the probability value.
+- **Probability Of It Alive**: `0.2` - Probability of a cell being alive initially when `Make Cells State Random` is false. This determines the number of cells that will be active at the start in random places.
+- **Timer Count**: `0.3` - Timer interval for updating the grid. This sets the delay between each frame, for example, waiting 2 seconds between the current and the next state.
+- **Timer Is Valid**: Boolean to check if the timer is valid. If true, it starts the simulation of the Game of Life. If false, the player can hover over cells to activate or deactivate them.
 
 ## Getting Started
 
