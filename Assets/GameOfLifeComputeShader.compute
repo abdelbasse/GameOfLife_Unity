@@ -1,0 +1,67 @@
+// GameOfLifeComputeShader.compute
+
+#pragma kernel CSMain
+
+RWTexture2D<float4> Result; // Output texture
+Texture2D<float4> InputTexture; // Input texture
+SamplerState samplerState;
+
+// Additional parameters for rules and grid size
+int2 GridSize;
+int CellResolution;
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    // Get the current pixel position
+    int2 pixelPos = int2(id.xy);
+
+    // Calculate the cell position based on pixel position
+    int2 cellPos = pixelPos / CellResolution;
+
+    // Initialize neighbor count
+    int aliveNeighbors = 0;
+
+    // Iterate through the 3x3 neighborhood
+    for (int x = -1; x <= 1; x++)
+    {
+        for (int y = -1; y <= 1; y++)
+        {
+            if (x == 0 && y == 0) continue; // Skip the cell itself
+
+            int2 neighborPos = cellPos + int2(x, y);
+
+            // Handle wrapping (torus topology)
+            neighborPos = (neighborPos + GridSize) % GridSize;
+
+            // Convert cell position back to pixel position
+            int2 neighborPixelPos = neighborPos * CellResolution;
+
+            // Sample the input texture to determine if the neighbor is alive
+            float4 neighborPixel = InputTexture[neighborPixelPos];
+
+            if (neighborPixel.r > 0.5)
+            {
+                aliveNeighbors++;
+            }
+        }
+    }
+
+    // Sample the current cell's state
+    float4 currentPixel = InputTexture[pixelPos];
+    bool isAlive = currentPixel.r > 0.5;
+
+    // Apply the Game of Life rules
+    bool newState = false;
+    if (isAlive && (aliveNeighbors == 2 || aliveNeighbors == 3))
+    {
+        newState = true;
+    }
+    else if (!isAlive && aliveNeighbors == 3)
+    {
+        newState = true;
+    }
+
+    // Write the new state to the result texture
+    Result[pixelPos] = float4(newState ? 1.0 : 0.0, newState ? 1.0 : 0.0, newState ? 1.0 : 0.0, 1.0);
+}
